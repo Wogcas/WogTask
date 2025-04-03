@@ -16,7 +16,6 @@
         "resolveJsonModule": true,
         "strictPropertyInitialization": false,
         "noImplicitAny": true,
-        "sourceMap": true,
         "outDir": "./build"
     },
     "exclude": [

@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Task mannagment project just for fun.",
-  "type": "commonjs",
-  "main": "server.ts",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsnode": "ts-node ./server/test.ts",
+    "server": "ts-node ./server/server.ts"
   },
   "keywords": [],
   "author": "Wogcas",
@@ -14,8 +14,10 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^5.9.2",
     "reflect-metadata": "^0.2.2",
     "ts-node": "^10.9.2",
+    "typeorm": "^0.3.21",
     "typescript": "^5.8.2"
   },
   "devDependencies": {
