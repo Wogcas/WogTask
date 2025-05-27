@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { LoginService } from './login.service';
-import { LoginDto } from './login.dto';
+import { LoginDto } from './login.interface';
 
 @Controller('login')
 export class LoginController {
@@ -9,6 +9,6 @@ export class LoginController {
 
     @Post()
     async login(@Body() loginDto: LoginDto) {
-        
+        return await this.loginService.login(loginDto);
     }
 }
