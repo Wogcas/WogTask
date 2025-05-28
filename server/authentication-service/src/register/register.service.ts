@@ -3,7 +3,7 @@ import { UserMapperService } from './mapper/user-mapper.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/shared/entities/user.entity';
 import { Repository } from 'typeorm';
-import { RegisterDto } from './register.interface';
+import { RegisterDTO } from 'src/shared/grpc/register';
 
 @Injectable()
 export class RegisterService {
@@ -14,7 +14,7 @@ export class RegisterService {
         private userRepository: Repository<User>
     ) { }
 
-    async createUser(registerDto: RegisterDto): Promise<User> {
+    async createUser(registerDto: RegisterDTO): Promise<User> {
         try {
             await this.validateEmailDoesNotExist(registerDto.email);
             await this.validateUsernameDoesNotExist(registerDto.username);

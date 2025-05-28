@@ -48,19 +48,3 @@ message UserLogged {
     string lastname = 5;
 }
 
-message SuccessResponse {
-    string access_token = 1;
-    UserData user = 2;
-}
-
-message UserData {
-    string id = 1;
-    string email = 2;
-    string username = 3;
-}
-
-message ErrorResponse {
-    int32 status_code = 1;
-    string message = 2;
-    string error = 3;
-}

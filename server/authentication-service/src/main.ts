@@ -13,6 +13,7 @@ async function bootstrap() {
       url: 'localhost:50051',
     }
   });
+  await app.startAllMicroservices();
   await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();

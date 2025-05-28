@@ -1,7 +1,7 @@
 import { Body, Controller, HttpException, Post } from '@nestjs/common';
-import { RegisterDto } from './register.interface';
 import { RegisterService } from './register.service';
 import { GrpcMethod } from '@nestjs/microservices';
+import { RegisterDTO, RegisterResponse } from 'src/shared/grpc/register';
 
 @Controller('register')
 export class RegisterController {
@@ -9,10 +9,15 @@ export class RegisterController {
     constructor(private readonly registerService: RegisterService) { }
 
     @GrpcMethod('AuthService', 'Register')
-    async register(@Body() registerDto: RegisterDto): Promise<{ message: string }> {
-        await this.registerService.createUser(registerDto);
-        return { message: "User registered successfully: " + registerDto.username };
+    async register(registerDto: RegisterDTO): Promise<RegisterResponse> {
+        const user = await this.registerService.createUser(registerDto);
+        return {
+            user: {
+                id: user.id,
+                username: user.username
+            },
+            message: 'User registered successfully'
+        };
     }
+
 }
-
-
