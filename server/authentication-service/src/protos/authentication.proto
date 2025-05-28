@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package authentication;
+
+service AuthService {
+  // Registra un nuevo usuario
+  rpc Register (UserRegisterDTO) returns (RegisterResponse);
+  
+  // Autentica un usuario existente
+  rpc Login (UserLoginDTO) returns (LoginResponse);
+}
+
+// Mensajes para el registro
+message UserRegisterDTO {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+    string firstname = 4;
+    string lastname = 5;
+}
+
+message RegisterResponse {
+    UserInfo user = 1;
+    string message = 2;
+}
+
+// Mensajes para el login
+message UserLoginDTO {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+  UserLogged user = 2;
+}
+
+message UserInfo {
+    int32 id = 1;
+    string username = 2;
+}
+
+message UserLogged {
+    int32 id = 1;
+    string username = 2;
+    string email = 3;
+    string firstname = 4;
+    string lastname = 5;
+}
+
+message SuccessResponse {
+    string access_token = 1;
+    UserData user = 2;
+}
+
+message UserData {
+    string id = 1;
+    string email = 2;
+    string username = 3;
+}
+
+message ErrorResponse {
+    int32 status_code = 1;
+    string message = 2;
+    string error = 3;
+}
