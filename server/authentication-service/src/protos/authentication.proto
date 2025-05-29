@@ -48,3 +48,8 @@ message UserLogged {
     string lastname = 5;
 }
 
+message ErrorResponse {
+  int32 code = 1;
+  string message = 2;
+  repeated string details = 3;
+}
