@@ -5,6 +5,8 @@ import { User } from 'src/shared/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { LoginDTO, LoginResponse } from 'src/shared/grpc/login';
+import { RpcException } from '@nestjs/microservices';
+import { status } from '@grpc/grpc-js';
 
 
 @Injectable()
@@ -15,11 +17,11 @@ export class LoginService {
         private userRepository: Repository<User>
     ) { }
 
-     private async validateUser(email: string, password: string) {
+    private async validateUser(email: string, password: string) {
         const user = await this.userRepository.findOne({
             where: { email }
         });
-        
+
         if (user && (await bcrypt.compare(password, user.password))) {
             const { password, ...result } = user;
             return result;
@@ -29,9 +31,12 @@ export class LoginService {
 
     async login(loginDto: LoginDTO): Promise<LoginResponse> {
         const user = await this.validateUser(loginDto.email, loginDto.password);
-        
+
         if (!user) {
-            throw new UnauthorizedException('Invalid credentials');
+            throw new RpcException({
+                code: status.UNAUTHENTICATED,
+                message: 'Invalid credentials'
+            });
         }
 
         const payload = { email: user.email, sub: user.id };

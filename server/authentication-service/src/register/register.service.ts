@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/shared/entities/user.entity';
 import { Repository } from 'typeorm';
 import { RegisterDTO } from 'src/shared/grpc/register';
+import { RpcException } from '@nestjs/microservices';
+import { status } from '@grpc/grpc-js';
 
 @Injectable()
 export class RegisterService {
@@ -21,24 +23,16 @@ export class RegisterService {
             const user = this.userMapper.mapDtoToUser(registerDto);
             return await this.userRepository.save(user);
         } catch (error) {
-            if (error instanceof ConflictException) {
-                throw error;
-            }
-            throw new InternalServerErrorException({
-                statusCode: 500,
-                message: 'An unexpected error occurred creating the user',
-                error: 'Internal Server Error'
-            });
+            throw error;
         }
     }
 
     private async validateEmailDoesNotExist(email: string): Promise<void> {
         const existingUser = await this.userRepository.findOne({ where: { email } });
         if (existingUser) {
-            throw new ConflictException({
-                statusCode: 409,
+            throw new RpcException({
+                code: status.ALREADY_EXISTS,
                 message: 'Email already exists',
-                error: 'Conflict'
             });
         }
     }
@@ -46,10 +40,9 @@ export class RegisterService {
     private async validateUsernameDoesNotExist(username: string): Promise<void> {
         const existingUser = await this.userRepository.findOne({ where: { username } });
         if (existingUser) {
-            throw new ConflictException({
-                statusCode: 409,
+            throw new RpcException({
+                code: status.ALREADY_EXISTS,
                 message: 'Username already exists',
-                error: 'Conflict'
             });
         }
     }

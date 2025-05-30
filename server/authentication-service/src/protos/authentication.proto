@@ -21,7 +21,6 @@ message UserRegisterDTO {
 
 message RegisterResponse {
     UserInfo user = 1;
-    string message = 2;
 }
 
 // Mensajes para el login

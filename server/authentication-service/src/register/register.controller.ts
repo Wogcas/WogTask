@@ -11,13 +11,7 @@ export class RegisterController {
     @GrpcMethod('AuthService', 'Register')
     async register(registerDto: RegisterDTO): Promise<RegisterResponse> {
         const user = await this.registerService.createUser(registerDto);
-        return {
-            user: {
-                id: user.id,
-                username: user.username
-            },
-            message: 'User registered successfully'
-        };
+        return { user };
     }
 
 }

@@ -10,6 +10,6 @@ export class LoginController {
 
   @GrpcMethod('AuthService', 'Login')
   async login(loginDto: LoginDTO): Promise<LoginResponse> {
-    return this.loginService.login(loginDto);
+    return await this.loginService.login(loginDto);
   }
 }

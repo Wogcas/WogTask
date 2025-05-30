@@ -1,6 +1,5 @@
 export interface RegisterResponse {
     user: UserInfo;
-    message: string;
 }
 
 export interface UserInfo {
