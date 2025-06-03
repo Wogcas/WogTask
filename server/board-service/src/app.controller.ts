@@ -1,12 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { GrpcMethod } from '@nestjs/microservices';
+import { BoardResponse, CreateBoardDTO } from './grpc/board';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @GrpcMethod('BoardService', 'CreateBoard')
+  async create(dto: CreateBoardDTO, userid: number): Promise<BoardResponse> {
+    return await this.appService.createBoard(dto, userid);
   }
+
 }
